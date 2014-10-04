@@ -23,4 +23,10 @@ extern void * DSList_destory_node (DSList *);
 extern void * DSList_strip (DSList *);
 extern void DSList_traverse (DSList *, int (void *));
 
+/* Basic functions */
+extern void DFprint_memory_default (void *, int);
+extern int DFprint_memory (void *, char *, int);
+extern int DFsocket_create_server (int ,const struct sockaddr *, socklen_t, int);
+
+
 #endif

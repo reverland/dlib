@@ -162,5 +162,25 @@ DSList
 
     data = DSList_strip (node);
 
+
+常用函数库
+--------------------------------------------------------
+### 内存打印函数
+    void DFprint_memory_default (void * start, int len);
+  用十六进制打印以start开头的len个字节。
+
+### 能够自定义的内存打印函数
+    int DFprint_memory (void * start, char * format, int ele_per_line)；
+  打印内存以start开始，每行打印ele_per_line个。<br />
+  format制定需要打印的格式，该格式与GDB中x打印命令相同，但是不支持f，a，s，i打印类型。<br />
+
+### 创建一个Socket服务器。
+    int DFsocket_create_server (int type, const struct sockaddr * addr, socklen_t alen, int qlen);
+  typer指定使用协议的协议族，例如AF_INET或者AF_UNIX。<br />
+  addr为对应存放地址的结构体指针。<br />
+  ale为addr结构体的有效长度。
+  qlen为listen时的挂起队列长度。
+
+
 END❡
 ====
