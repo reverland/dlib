@@ -104,6 +104,7 @@ DSList_prepend ( DSList * list,
  *             data which is stored in node will be passed to @func as its parameter.
  *             If the data of the node is the desired one, @func returns 1, else
  *             returns 0.
+ * @args (I) : The data pointed by @args will be passed to @func as its parameter.
  * @node (I/O) : Passing NULL if user don't care the data contained in the node which
  *               will be removed. Passing a address of type DSList to receive the pointer
  *               of node which is removed from the @list.
@@ -111,13 +112,14 @@ DSList_prepend ( DSList * list,
  **/
 DSList *
 DSList_remove ( DSList * list,
-                int func (void *),
+                int func (void *, void *),
+                void * args,
                 DSList ** node)
 {
     DSList * temp = list;
     DSList * prev = NULL;
     while (temp) {
-        if (func (temp->payload)) {
+        if (func (temp->payload, args)) {
             if (node != NULL)
                 *node = temp;
             if (prev) {
@@ -145,18 +147,20 @@ DSList_remove ( DSList * list,
  *             data which is stored in node will be passed to @func as its parameter.
  *             If the data of the node is the desired one, @func returns 1, else
  *             returns 0.
+ * @args (I) : The data pointed by @args will be passed to @func as its parameter.
  * @payload (I/O) : Passing NULL if user don't care the data contained in the node which
  *                  will be deleted. Passing a address of variable of type void to receive
  *                  data which is is stored in the node when this function returns.
  * Returns : The new head of the list.
  **/
 DSList * DSList_delete ( DSList * list,
-                 int func (void *),
+                 int func (void *, void *),
+                 void * args,
                  void ** payload)
 {
     DSList * head = NULL;
     DSList * node = NULL;
-    head = DSList_remove(list, func, &node);
+    head = DSList_remove(list, func, args, &node);
     if (node == NULL)
         *payload = NULL;
     else {
@@ -175,16 +179,18 @@ DSList * DSList_delete ( DSList * list,
  *             data which is stored in node will be passed to @func as its parameter.
  *             If the data of the node is the desired one, @func returns 1, else
  *             returns 0.
+ * @args (I) : The data pointed by @args will be passed to @func as its parameter.
  * Returns : The address of the node.
  **/
 DSList *
 DSList_search ( DSList * list,
-                int func (void *))
+                int func (void *, void *),
+                void * args)
 {
     DSList * temp = list;
 
     while (temp) {
-        if (func (temp->payload))
+        if (func (temp->payload, args))
             return temp;
         temp = temp->next;
     }
@@ -197,15 +203,17 @@ DSList_search ( DSList * list,
  * @list (I) : A pointer of head of a list. This parameter can also be a address
  *             of arbitrary node for which you may wish to start searching.
  * @func (I) : A function which will be applied to each node.
+ * @args (I) : The data pointed by @args will be passed to @func as its parameter.
  * Returns : NONE
  **/
 void
 DSList_traverse ( DSList * list,
-                  int func (void *))
+                  int func (void *, void *),
+                  void * args)
 {
     DSList * temp = list;
     while (temp) {
-        func (temp->payload);
+        func (temp->payload, args);
         temp = temp->next;
     }
 }

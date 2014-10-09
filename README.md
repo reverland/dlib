@@ -57,8 +57,9 @@ DSList
     head = DSList_prepend (head, node);
 
 ### 6) 将一个节点从链表中移除（该函数并不会释放该节点所占用的内存）
-    DSList * DSList_remove (DSList * list, int func (void *), DSList ** node);
+    DSList * DSList_remove (DSList * list, int func (void *, void *), void * args, DSList ** node);
   将每个node中保存的数据作为参数传送给func函数，该函数根据传入的数据判断该节点是不是保存了需要的数据，如果是的话返回1，否则返回0。<br />
+  args 也会作为第二个参数传给func，其中可以保存用户需要的数据。<br />
   该函数返回后会将node填充为移除的节点的地址，如果node为NULL的话，则忽略。<br />
   该函数不会释放node所占用的内存空间。<br />
   函数返回新的链表头。
@@ -81,8 +82,9 @@ DSList
     head = DSList_remove (head, find, node);
 
 ### 7) 将一个节点从链表中删除（该函数释放节点所占内存）
-    DSList * DSList_delete (DSList * list, int func (void *), void ** payload);
+    DSList * DSList_delete (DSList * list, int func (void *, void *), void * args, void ** payload);
   将每个node中保存的数据作为参数传送给func函数，该函数根据传入的数据判断该节点是不是保存了需要的数据，如果是的话返回1，否则返回0。<br />
+  args 也会作为第二个参数传给func，其中可以保存用户需要的数据。<br />
   该函数返回后会将payload填充为移除的节点中数据的地址，如果payload为NULL的话，则忽略。<br />
   函数返回新的链表头。
 
@@ -104,8 +106,9 @@ DSList
     head = DSList_delete (head, find, node);
 
 ### 8) 对链表中的每一个元素都应用一个函数
-    void DSList_traverse (DSList * list, int func (void *));
-  将func函数应用到list中的每一个节点上。
+    void DSList_traverse (DSList * list, int func (void *, void *), void * args);
+  将func函数应用到list中的每一个节点上。<br />
+  args 也会作为第二个参数传给func，其中可以保存用户需要的数据。
 
   例：<br />
   对链表中的每个元素应用如下的打印函数。
@@ -121,8 +124,9 @@ DSList
     DSList_traverse (head, print);
 
 ### 9) 搜索链表
-    DSList * DSList_search (DSList * list, int func (void *));
+    DSList * DSList_search (DSList * list, int func (void *, void *), void * args);
   在链表list中搜索满足条件func的节点。<br />
+  args 也会作为第二个参数传给func，其中可以保存用户需要的数据。<br />
   如果搜索到则返回节点地址，否则返回NULL。
 
   例：<br />
